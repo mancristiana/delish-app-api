@@ -29,6 +29,6 @@
   "apidoc": {
     "name": "Delish Recipe API",
     "title": "Delish Recipe API",
-    "url": "https://delish-recipe-api.herokuapp.com"
+    "url": "https://delish-recipe-api.herokuapp.com/api"
   }
 }
