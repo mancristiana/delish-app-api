@@ -26,7 +26,7 @@ app.listen(process.env.PORT || 3000);
  * Configure the AWS region of the target bucket.
  * Remember to change this to the relevant region.
  */
-aws.config.region = 'eu-west-1';
+aws.config.region = 'eu-central-1';
 
 /*
  * Load the S3 information from the environment variables.
