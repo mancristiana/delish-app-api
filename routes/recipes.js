@@ -52,7 +52,6 @@ router
    *
    * @apiDescription This request creates a new recipe using the json body provided. An _id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated _id is returned
    *
-   * @apiParam (Recipe Fields) {String} _id Unique Mongo generated id of the recipe.
    * @apiParam (Recipe Fields) {String} name Name of the recipe.
    * @apiParam (Recipe Fields) {String} image URL of the recipe.
    * @apiParam (Recipe Fields) {number} time Preparation time represented in number of minutes.
@@ -66,7 +65,6 @@ router
    *
    * @apiParamExample {json} Post Example:
    *       {
-   *          "_id": "573ec098e85f5601f611322b",
    *          "name": "Tomato Soup",
    *          "description": "A quick and easy recipe for real homemade tomato soup like no other you've had before.",
    *          "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/recipes/573ec098e85f5601f611322b.jpg",
