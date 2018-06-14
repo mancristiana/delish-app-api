@@ -1,17 +1,15 @@
-/**
- * Import required packages.
- * Set-up and run the Express app.
- */
+require('./utils/globals'); // instantiate global functions
+
 const express = require('express');
 const app = express();
 
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 
 /**
  * Import app routes
  */
-var ingredients = require('./routes/ingredients.js');
-var recipes = require('./routes/recipes.js');
+const ingredients = require('./routes/ingredients.js');
+const recipes = require('./routes/recipes.js');
 
 /**
  *  CORS Cross-Origin Resource Sharing
