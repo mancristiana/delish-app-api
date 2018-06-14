@@ -1,4 +1,4 @@
-require('./utils/globals'); // instantiate global functions
+require('./src/utils/globals'); // instantiate global functions
 
 const express = require('express');
 const app = express();
@@ -8,8 +8,8 @@ const bodyParser = require('body-parser');
 /**
  * Import app routes
  */
-const ingredients = require('./routes/ingredients.js');
-const recipes = require('./routes/recipes.js');
+const ingredients = require('./src/routes/ingredients.js');
+const recipes = require('./src/routes/recipes.js');
 
 /**
  *  CORS Cross-Origin Resource Sharing
