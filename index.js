@@ -6,6 +6,8 @@ const express = require('express');
 const app = express();
 
 var bodyParser = require('body-parser');
+// Utils
+const middleware = require('./src/utils/middleware');
 
 /**
  * Import app routes
@@ -45,5 +47,11 @@ app.all(function(error, req, res, next) {
 // For specified path use required modules
 app.use('/api/ingredients/', ingredients);
 app.use('/api/recipes/', recipes);
+
+// Use Middleware
+app.use(middleware.logErrors);
+app.use(middleware.badRequest);
+app.use(middleware.notFound);
+app.use(middleware.error);
 
 app.listen(process.env.PORT || 5000);
