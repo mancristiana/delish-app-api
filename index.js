@@ -1,15 +1,10 @@
 require('./src/utils/globals'); // instantiate global functions
 
-const express = require('express');
-const app = express();
-
 const bodyParser = require('body-parser');
+const express = require('express');
+const routes = require('./src/routes');
 
-/**
- * Import app routes
- */
-const ingredients = require('./src/routes/ingredients.js');
-const recipes = require('./src/routes/recipes.js');
+const app = express();
 
 /**
  *  CORS Cross-Origin Resource Sharing
@@ -21,27 +16,11 @@ app.all('/*', function(req, res, next) {
   next();
 });
 
-// Use middleware which serves files from given 'public' directory
-app.use(express.static('./public'));
-
 // Use body-parsing middleware for JSON like experience with URL-encoded
 // Extended syntax uses qs library (when true) and querystring library (when false)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.all(function(error, req, res, next) {
-  // Catch bodyParser error
-  if (error.message === 'invalid json') {
-    res
-      .status(400)
-      .send({ error: '400 <br>Wrongly formated <code>json</code> was sent' });
-  } else {
-    next();
-  }
-});
-
-// For specified path use required modules
-app.use('/api/ingredients/', ingredients);
-app.use('/api/recipes/', recipes);
+app.use('/', routes);
 
 app.listen(process.env.PORT || 5000);
