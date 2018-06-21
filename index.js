@@ -6,7 +6,9 @@ require('./config/config');
 const express = require('express');
 const app = express();
 
-var bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
+const helmet = require('helmet');
+
 // Utils
 const middleware = require('./src/utils/middleware');
 
@@ -25,6 +27,7 @@ app.all('/*', function(req, res, next) {
   res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
   next();
 });
+app.use(helmet);
 
 // Use middleware which serves files from given 'public' directory
 app.use(express.static('./public'));
