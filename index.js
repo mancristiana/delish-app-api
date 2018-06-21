@@ -1,3 +1,4 @@
+require('./config/config');
 /**
  * Import required packages.
  * Set-up and run the Express app.
