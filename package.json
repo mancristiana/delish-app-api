@@ -4,7 +4,9 @@
   "description": "API Documentation for Delish Recipe App",
   "main": "index.js",
   "scripts": {
-    "docs": "./node_modules/.bin/apidoc -i routes/ -o public/"
+    "docs": "./node_modules/.bin/apidoc -i routes/ -o public/",
+    "heroku:local": "./node_modules/.bin/heroku local",
+    "start": "./node_modules/.bin/nodemon --exec \"npm run heroku:local\" --signal SIGTERM"
   },
   "engines": {
     "node": "9.3.0"
@@ -30,5 +32,9 @@
     "name": "Delish Recipe API",
     "title": "Delish Recipe API",
     "url": "https://delish-recipe-api.herokuapp.com/api"
+  },
+  "devDependencies": {
+    "heroku": "^7.4.11",
+    "nodemon": "^1.17.5"
   }
 }
