@@ -9,6 +9,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const helmet = require('helmet');
+const logger = require('morgan');
 
 // Utils
 const middleware = require('./src/utils/middleware');
@@ -29,6 +30,9 @@ app.use(bodyParser.json());
 
 app.use(cors());
 app.use(helmet());
+
+// See: https://expressjs.com/en/resources/middleware/morgan.html
+app.use(logger('common'));
 
 app.all(function(error, req, res, next) {
   // Catch bodyParser error
