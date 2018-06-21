@@ -7,6 +7,7 @@ const express = require('express');
 const app = express();
 
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const helmet = require('helmet');
 
 // Utils
@@ -18,17 +19,6 @@ const middleware = require('./src/utils/middleware');
 var ingredients = require('./routes/ingredients.js');
 var recipes = require('./routes/recipes.js');
 
-/**
- *  CORS Cross-Origin Resource Sharing
- */
-app.all('/*', function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type');
-  next();
-});
-app.use(helmet);
-
 // Use middleware which serves files from given 'public' directory
 app.use(express.static('./public'));
 
@@ -36,6 +26,9 @@ app.use(express.static('./public'));
 // Extended syntax uses qs library (when true) and querystring library (when false)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(cors());
+app.use(helmet());
 
 app.all(function(error, req, res, next) {
   // Catch bodyParser error
