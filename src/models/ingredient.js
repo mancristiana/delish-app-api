@@ -11,6 +11,8 @@ ingredientSchema.set('toJSON', {
   transform: function(doc, ret, options) {
     // modify the _id to id of every document before returning the result
     ret.id = ret._id;
+    //Mongoose adds version key, see: http://mongoosejs.com/docs/guide.html#versionKey
+    delete ret.__v;
     delete ret._id;
     return ret;
   }
