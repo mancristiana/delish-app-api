@@ -23,7 +23,7 @@ router
 router
   .route('/api/recipes/:id')
   .get(recipes.getById)
-  .put(recipes.update)
+  .patch(recipes.update)
   .delete(recipes.delete);
 
 // Use middleware which serves files from given 'public' directory

@@ -1,12 +1,4 @@
-// Require mongodb module
-var MongoClient = require('mongodb').MongoClient; // instance needed for connecting to db
-var ObjectID = require('mongodb').ObjectID;
-
-// Connection URL
-var url = process.env.MONGODB_URI;
-var db = process.env.MONGODB_DB;
-
-var errorHandler = require('./../utils/error-handler').errorHandler;
+const Recipe = require('./../models').Recipe;
 
 /**
  * @api {get} /recipes Get All Recipes
@@ -20,22 +12,14 @@ var errorHandler = require('./../utils/error-handler').errorHandler;
  */
 
 // Handler function (middleware system) for get request
-module.exports.getAll = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('recipes');
-      collection.find().toArray(function(err, result) {
-        if (errorHandler(res, err)) return;
-        res.status(200);
-        res.json(result);
+module.exports.getAll = async function(req, res) {
+  let recipes, error;
+  [recipes, error] = await to(Recipe.find());
+  if (error) {
+    return responseError(res, error);
+  }
 
-        client.close();
-      });
-    }
-  );
+  return responseSuccess(res, recipes);
 };
 
 /**
@@ -108,7 +92,6 @@ module.exports.getAll = function(req, res) {
  * @apiSuccess (Success 2xx) 201 Recipe Created
  * @apiSuccessExample {json} Success-Response:
  *     HTTP/1.1 201 Created
- *     Location : /<ObjectId>
  *     {
  *       "_id" : "5746d36bfa2cdf7c300bf61c",
  *       "message": "Recipe added"
@@ -116,187 +99,113 @@ module.exports.getAll = function(req, res) {
  *
  * @apiError (Error 4xx) 400 Bad Request <br>Wrongly formated <code>json</code> was sent.
  * @apiError (Error 5xx) 500 Internal Server Error
- * @apiErrorExample {json} Error-Response:
- *   HTTP/1.1 500 Internal Server Error
- *   {
- *       "error": "Internal Server Error"
- *   }
  *
  */
 
-module.exports.add = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('recipes');
-      collection.insertOne(req.body, function(err, result) {
-        if (errorHandler(res, err)) return;
-        res.status(201);
-        res.location('/' + result.insertedId.toHexString());
-        res.json({
-          _id: result.insertedId.toHexString(),
-          message: 'Recipe added'
-        });
-
-        client.close();
-      });
+module.exports.add = async function(req, res) {
+  let result, error;
+  const newRecipe = new Recipe(req.body);
+  [result, error] = await to(newRecipe.save());
+  if (error) {
+    if (error.type === 'ValidationError') {
+      return responseError(res, error, 400);
     }
-  );
+    return responseError(res, error);
+  }
+
+  return responseSuccess(res, { id: result.id }, 201);
 };
 
 /**
- * @api {get} /recipes/id Get Recipe
+ * @api {get} /recipes/:id Get Recipe
  * @apiName get-recipe
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  *
- * @apiDescription This request returns the recipe specified by the unique ID in the request URL
+ * @apiDescription This request returns the recipe specified by the unique <code>:id</code> in the request URL
  *
  * @apiParam {ObjectId} id The unique identifier of the recipe.
  *
  * @apiSuccess (Success 2xx) 200 OK
- *
  * @apiError 404 Recipe Not Found
- * @apiError 400 Bad Request <br>Wrongly formated <code>id</code> was sent.
  * @apiError (Error 5xx) 500 Internal Server Error
  *
  */
 
-module.exports.getById = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('recipes');
-      try {
-        collection.findOne({ _id: ObjectID(req.params.id) }, function(
-          err,
-          result
-        ) {
-          if (errorHandler(res, err)) return;
-          if (result === null) {
-            res.status(404).send({ error: 'Exercise Not Found' });
-          } else {
-            res.status(200);
-            res.json(result);
-          }
-          client.close();
-        });
-      } catch (e) {
-        res.status(400).send({ error: 'Bad Request' });
-        client.close();
-      }
-    }
-  );
+module.exports.getById = async function(req, res) {
+  let recipe, error;
+  [recipe, error] = await to(Recipe.findOne({ _id: req.params.id }));
+  if (error) {
+    return responseError(res, error);
+  }
+
+  if (!recipe) {
+    return responseError(res, { message: 'Recipe not found' }, 404);
+  }
+
+  return responseSuccess(res, recipe);
 };
 
 /**
- * @api {put} /recipes/id Update Recipe
+ * @api {patch} /recipes/:id Update Recipe
  * @apiName update-recipe
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  *
- * @apiDescription This request updates an existing recipe using the json body provided and the _id parameter specified in the request URL. For consistency the json may include keys like in the example below.
+ * @apiDescription This request updates an existing recipe using the json body provided and the <code>:id</code> parameter specified in the request URL. For consistency the json may include keys like in the example below.
  *
  * @apiParam {ObjectId} id The unique identifier of the recipe.
  * @apiParamExample {json} Edit Example:
- *   {
- *       "name": "Cherry Tomato Soup",
- *       "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/cherry-tomato.jpg"
- *   }
+ * {
+ *    "name": "Cherry Tomato Soup",
+ *    "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/cherry-tomato.jpg"
+ * }
  *
- * @apiSuccess (Success 2xx) 201 Recipe Edited
- *
- * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 201 Created
- *     Location : /api/recipes/<ObjectId>
- *     {
- *       "message": "Recipe edited"
- *     }
- *
- * @apiError (Error 4xx) 404 Recipe not Found
- * @apiError (Error 4xx) 400 Bad Request <br>Wrongly formated <code>json</code> was sent.
- * @apiError (Error 5xx) 500 Internal Server Error
+ * @apiSuccess (Success 2xx) 200 OK
+ * @apiError (Error 4xx) 404 Recipe not found
+ * @apiError (Error 5xx) 500 Internal server error
  *
  */
-module.exports.update = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('recipes');
-
-      try {
-        collection.update(
-          { _id: ObjectID(req.params.id) },
-          { $set: req.body },
-          function(err, result) {
-            if (errorHandler(res, err)) return;
-            res.status(201).send({ message: 'Recipe edited' });
-            client.close();
-          }
-        );
-      } catch (e) {
-        res.status(400).send({ error: 'Bad Request' });
-        client.close();
-      }
-    }
+module.exports.update = async function(req, res) {
+  let error, result;
+  [result, error] = await to(
+    Recipe.update({ _id: req.params.id }, { $set: req.body })
   );
+  if (error) {
+    return responseError(res, error);
+  }
+
+  if (result.n === 0) {
+    return responseError(res, { message: 'Recipe not found' }, 404);
+  }
+
+  return responseSuccess(res);
 };
 
 /**
- * @api {delete} /recipes/id Delete Recipe
+ * @api {delete} /recipes/:id Delete Recipe
  * @apiName delete-recipe
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  *
- * @apiDescription This request deletes an existing recipe with the _id parameter specified in the request URL.
+ * @apiDescription This request deletes an existing recipe with the <code>:id</code> parameter specified in the request URL.
  * @apiParam {ObjectId} id The unique identifier of the recipe.
  *
  * @apiSuccess (Success 2xx) 200 Successful Request
- *
- * @apiSuccessExample {json} Success-Response:
- *      HTTP/1.1 204 No Content
- *      {
- *          "message" : "Recipe deleted"
- *      }
- *
- * @apiError 404 Recipe Not Found
- * @apiError 400 Bad Request <br>A wrong formated <code>id</code> was sent
- *
- * @apiError (Error 5xx) 500 Internal Server Error
+ * @apiError (Error 4xx) 404 Recipe not found
+ * @apiError (Error 5xx) 500 Internal server error
  *
  */
-module.exports.delete = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('recipes');
+module.exports.delete = async function(req, res) {
+  let error, result;
+  [result, error] = await to(Recipe.deleteOne({ _id: req.params.id }));
+  if (error) {
+    return responseError(res, error);
+  }
 
-      try {
-        collection.remove({ _id: ObjectID(req.params.id) }, function(
-          err,
-          result
-        ) {
-          if (errorHandler(res, err)) return;
-          res.status(200);
-          res.json({
-            _id: req.params.id,
-            message: 'Recipe deleted'
-          });
+  if (result.n === 0) {
+    return responseError(res, { message: 'Recipe not found' }, 404);
+  }
 
-          client.close();
-        });
-      } catch (e) {
-        res.status(400).send({ error: 'Bad Request' });
-        client.close();
-      }
-    }
-  );
+  return responseSuccess(res);
 };
