@@ -4,7 +4,7 @@
   "description": "API Documentation for Delish Recipe App",
   "main": "index.js",
   "scripts": {
-    "docs": "./node_modules/.bin/apidoc -i routes/ -o public/",
+    "docs": "./node_modules/.bin/apidoc -i src/ -o public/",
     "heroku:local": "./node_modules/.bin/heroku local",
     "start": "./node_modules/.bin/nodemon --exec \"npm run heroku:local\" --signal SIGTERM"
   },
@@ -22,7 +22,6 @@
   },
   "homepage": "https://github.com/mancristiana/delish-app-api#readme",
   "dependencies": {
-    "apidoc": "^0.17.6",
     "aws-sdk": "^2.215.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
@@ -39,6 +38,7 @@
     "url": "https://delish-recipe-api.herokuapp.com/api"
   },
   "devDependencies": {
+    "apidoc": "^0.17.6",
     "heroku": "^7.4.11",
     "nodemon": "^1.17.5"
   }
