@@ -7,6 +7,9 @@ const Recipe = require('./../models').Recipe;
  * @apiVersion 1.0.0
  *
  * @apiDescription This request returns a list of all recipes.
+ *
+ * @apiSuccess (Success 2xx) 200 OK
+ *
  * @apiError (Error 5xx) 500 Internal Server Error
  *
  */
@@ -167,7 +170,7 @@ module.exports.getById = async function(req, res) {
  *
  */
 module.exports.update = async function(req, res) {
-  let error, result;
+  let result, error;
   [result, error] = await to(
     Recipe.update({ _id: req.params.id }, { $set: req.body })
   );
