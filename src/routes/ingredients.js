@@ -1,12 +1,4 @@
-// Require mongodb module
-var MongoClient = require('mongodb').MongoClient; // instance needed for connecting to db
-var ObjectID = require('mongodb').ObjectID;
-
-// Connection URL
-var url = process.env.MONGODB_URI;
-var db = process.env.MONGODB_DB;
-
-var errorHandler = require('./../utils/error-handler').errorHandler;
+const Ingredient = require('./../models').Ingredient;
 
 /**
  * @api {get} /ingredients Get All Ingredients
@@ -16,46 +8,21 @@ var errorHandler = require('./../utils/error-handler').errorHandler;
  *
  * @apiDescription This request returns a list of all ingredients.
  *
- * @apiSuccess (Ingredient Fields) {String} _id Unique Mongo generated id of the ingredient.
- * @apiSuccess (Ingredient Fields) {String} name Name of the ingredient.
- * @apiSuccess (Ingredient Fields) {String} image URL of the ingredient.
- *
- * @apiSuccessExample {json} Success-Response:
- *   HTTP/1.1 200 OK
- *   [
- *       {
- *           "_id": "573ec098e85f5601f611322b",
- *           "name": "Tomato",
- *           "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/tomato.jpg"
- *       },
- *       {
- *           "_id": "573ec075e85f5601f611322a",
- *           "name": "Sugar",
- *           "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/sugar.jpg"
- *       }
- *   ]
+ * @apiSuccess (Success 2xx) 200 OK
  *
  * @apiError (Error 5xx) 500 Internal Server Error
  *
  */
 
 // Handler function (middleware system) for get request
-module.exports.getAll = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('ingredients');
-      collection.find().toArray(function(err, result) {
-        if (errorHandler(res, err)) return;
-        res.status(200);
-        res.json(result);
+module.exports.getAll = async function(req, res) {
+  let error, ingredients;
+  [ingredients, error] = await to(Ingredient.find());
+  if (error) {
+    return responseError(res, error);
+  }
 
-        client.close();
-      });
-    }
-  );
+  return responseSuccess(res, ingredients);
 };
 
 /**
@@ -94,26 +61,17 @@ module.exports.getAll = function(req, res) {
  *
  */
 
-module.exports.add = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('ingredients');
-      collection.insertOne(req.body, function(err, result) {
-        if (errorHandler(res, err)) return;
-        res.status(201);
-        res.location('/' + result.insertedId.toHexString());
-        res.json({
-          _id: result.insertedId.toHexString(),
-          message: 'Ingredient added'
-        });
-
-        client.close();
-      });
+module.exports.add = async function(req, res) {
+  let result, error;
+  const newIngredient = new Ingredient(req.body);
+  [result, error] = await to(newIngredient.save());
+  if (error) {
+    if (error.type === 'ValidationError') {
+      return responseError(res, error, 400);
     }
-  );
+    return responseError(res, error);
+  }
+  return responseSuccess(res, { id: result.id }, 201);
 };
 
 /**
@@ -141,33 +99,18 @@ module.exports.add = function(req, res) {
  *
  */
 
-module.exports.getById = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('ingredients');
-      try {
-        collection.findOne({ _id: ObjectID(req.params.id) }, function(
-          err,
-          result
-        ) {
-          if (errorHandler(res, err)) return;
-          if (result === null) {
-            res.status(404).send({ error: 'Exercise Not Found' });
-          } else {
-            res.status(200);
-            res.json(result);
-          }
-          client.close();
-        });
-      } catch (e) {
-        res.status(400).send({ error: 'Bad Request' });
-        client.close();
-      }
-    }
-  );
+module.exports.getById = async function(req, res) {
+  let ingredient, error;
+  [ingredient, error] = await to(Ingredient.findById(req.params.id));
+  if (error) {
+    return responseError(res, error);
+  }
+
+  if (!ingredient) {
+    return responseError(res, { message: 'Ingredient not found' }, 404);
+  }
+
+  return responseSuccess(res, ingredient);
 };
 
 /**
@@ -199,30 +142,21 @@ module.exports.getById = function(req, res) {
  * @apiError (Error 5xx) 500 Internal Server Error
  *
  */
-module.exports.update = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('ingredients');
-
-      try {
-        collection.update(
-          { _id: ObjectID(req.params.id) },
-          { $set: req.body },
-          function(err, result) {
-            if (errorHandler(res, err)) return;
-            res.status(201).send({ message: 'Ingredient edited' });
-            client.close();
-          }
-        );
-      } catch (e) {
-        res.status(400).send({ error: 'Bad Request' });
-        client.close();
-      }
-    }
+module.exports.update = async function(req, res) {
+  let result, error;
+  [result, error] = await to(
+    Ingredient.update({ _id: req.params.id }, { $set: req.body })
   );
+
+  if (error) {
+    return responseError(res, error);
+  }
+
+  if (result.n === 0) {
+    return responseError(res, { message: 'Ingredient not found' }, 404);
+  }
+
+  return responseSuccess(res);
 };
 
 /**
@@ -248,32 +182,15 @@ module.exports.update = function(req, res) {
  * @apiError (Error 5xx) 500 Internal Server Error
  *
  */
-module.exports.delete = function(req, res) {
-  MongoClient.connect(
-    url,
-    function(err, client) {
-      if (errorHandler(res, err)) return;
-      var db = client.db(db);
-      var collection = db.collection('ingredients');
+module.exports.delete = async function(req, res) {
+  let result, error;
+  [result, error] = await to(Ingredient.deleteOne({ _id: req.params.id }));
+  if (error) {
+    return responseError(res, error);
+  }
+  if (result.n === 0) {
+    return responseError(res, { message: 'Ingredient not found' }, 404);
+  }
 
-      try {
-        collection.remove({ _id: ObjectID(req.params.id) }, function(
-          err,
-          result
-        ) {
-          if (errorHandler(res, err)) return;
-          res.status(200);
-          res.json({
-            _id: req.params.id,
-            message: 'Ingredient deleted'
-          });
-
-          client.close();
-        });
-      } catch (e) {
-        res.status(400).send({ error: 'Bad Request' });
-        client.close();
-      }
-    }
-  );
+  return responseSuccess(res);
 };
