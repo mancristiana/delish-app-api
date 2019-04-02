@@ -20,17 +20,15 @@
   "bugs": {
     "url": "https://github.com/mancristiana/delish-app-api/issues"
   },
-  "homepage": "https://github.com/mancristiana/delish-app-api#readme",
   "dependencies": {
-    "aws-sdk": "^2.215.1",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "express": "^4.16.3",
-    "mongodb": "^3.0.5",
-    "mongoose": "^5.1.5",
-    "parse-error": "^0.2.0",
-    "helmet": "^3.12.1",
-    "morgan": "^1.9.0"
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "helmet": "^3.16.0",
+    "mongodb": "^3.2.2",
+    "mongoose": "^5.4.21",
+    "morgan": "^1.9.1",
+    "parse-error": "^0.2.0"
   },
   "apidoc": {
     "name": "Delish Recipe API",
@@ -38,8 +36,8 @@
     "url": "https://delish-recipe-api.herokuapp.com/api"
   },
   "devDependencies": {
-    "apidoc": "^0.17.6",
-    "heroku": "^7.4.11",
-    "nodemon": "^1.17.5"
+    "apidoc": "^0.17.7",
+    "heroku": "^7.22.7",
+    "nodemon": "^1.18.10"
   }
 }
