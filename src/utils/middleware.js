@@ -11,11 +11,13 @@ const badRequest = function(err, req, res, next) {
 };
 
 const notFound = function(req, res, next) {
-  return responseError(res, { message: 'Route not found' }, 404);
+  const err = new Error('Route not found');
+  err.status = 404;
+  next(err);
 };
 
 const error = function(err, req, res, next) {
-  return responseError(res, null, 500);
+  return responseError(res, err, err.status || 500);
 };
 
 module.exports = {
