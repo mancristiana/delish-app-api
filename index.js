@@ -1,4 +1,4 @@
-require('./src/utils/globals'); // instantiate global functions
+require('./src/utils/globals');
 require('./config/config');
 
 const bodyParser = require('body-parser');
@@ -9,12 +9,8 @@ const logger = require('morgan');
 
 const middleware = require('./src/utils/middleware');
 const routes = require('./src/routes');
-
-// Set-up and run the Express app.
 const app = express();
 
-// Use body-parsing middleware for JSON like experience with URL-encoded
-// Extended syntax uses qs library (when true) and querystring library (when false)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
