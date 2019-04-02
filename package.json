@@ -4,12 +4,12 @@
   "description": "API Documentation for Delish Recipe App",
   "main": "index.js",
   "scripts": {
-    "docs": "./node_modules/.bin/apidoc -i src/ -o public/",
-    "heroku:local": "./node_modules/.bin/heroku local",
-    "start": "./node_modules/.bin/nodemon --exec \"npm run heroku:local\" --signal SIGTERM"
+    "docs": "apidoc -i src/ -o public/",
+    "heroku:local": "heroku local",
+    "start": "nodemon --exec \"yarn heroku:local\" --signal SIGTERM"
   },
   "engines": {
-    "node": "9.3.0"
+    "node": "11.0.0"
   },
   "repository": {
     "type": "git",
