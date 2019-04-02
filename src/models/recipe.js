@@ -1,13 +1,11 @@
 const mongoose = require('mongoose');
 
-const unitsEnum = { type: String, enum: ['g', 'ml'] };
 let recipeShema = mongoose.Schema({
-  name: String,
+  title: String,
   image: String,
   time: Date,
   servings: Number,
   link: String,
-  instructions: [String],
   ingredients: [
     {
       ingredient: {
@@ -15,21 +13,19 @@ let recipeShema = mongoose.Schema({
         ref: 'Ingredient'
       },
       quantity: Number,
-      unit: unitsEnum
+      unit: String
     }
-  ] //to be changed to proper data model
+  ],
+  directions: [String]
 });
 
 // See: http://mongoosejs.com/docs/guide.html#toJSON
 // See: http://mongoosejs.com/docs/api.html#document_Document-toObject
 recipeShema.set('toJSON', {
   transform: function(doc, ret, options) {
-    //modify the _id to id of every document before returning the result as per the queen's request
     ret.id = ret._id;
     delete ret._id;
-    //Mongoose adds version key, see: http://mongoosejs.com/docs/guide.html#versionKey
     delete ret.__v;
-    return ret;
   }
 });
 

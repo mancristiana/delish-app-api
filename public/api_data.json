@@ -162,37 +162,15 @@
     "description": "<p>This request returns a list of all ingredients.</p>",
     "success": {
       "fields": {
-        "Ingredient Fields": [
+        "Success 2xx": [
           {
-            "group": "Ingredient Fields",
-            "type": "String",
+            "group": "Success 2xx",
             "optional": false,
-            "field": "_id",
-            "description": "<p>Unique Mongo generated id of the ingredient.</p>"
-          },
-          {
-            "group": "Ingredient Fields",
-            "type": "String",
-            "optional": false,
-            "field": "name",
-            "description": "<p>Name of the ingredient.</p>"
-          },
-          {
-            "group": "Ingredient Fields",
-            "type": "String",
-            "optional": false,
-            "field": "image",
-            "description": "<p>URL of the ingredient.</p>"
+            "field": "200",
+            "description": "<p>OK</p>"
           }
         ]
-      },
-      "examples": [
-        {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n[\n    {\n        \"_id\": \"573ec098e85f5601f611322b\",\n        \"name\": \"Tomato\",\n        \"image\": \"https://s3.eu-central-1.amazonaws.com/delish-app-uploads/tomato.jpg\"\n    },\n    {\n        \"_id\": \"573ec075e85f5601f611322a\",\n        \"name\": \"Sugar\",\n        \"image\": \"https://s3.eu-central-1.amazonaws.com/delish-app-uploads/sugar.jpg\"\n    }\n]",
-          "type": "json"
-        }
-      ]
+      }
     },
     "error": {
       "fields": {
@@ -361,7 +339,7 @@
     "name": "add_recipe",
     "group": "Recipes",
     "version": "1.0.0",
-    "description": "<p>This request creates a new recipe using the json body provided. An _id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated _id is returned</p>",
+    "description": "<p>This request creates a new recipe using the json body provided. An id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated id is returned</p>",
     "parameter": {
       "fields": {
         "Recipe Fields": [
@@ -369,7 +347,7 @@
             "group": "Recipe Fields",
             "type": "String",
             "optional": false,
-            "field": "name",
+            "field": "title",
             "description": "<p>Name of the recipe.</p>"
           },
           {
@@ -402,13 +380,6 @@
           },
           {
             "group": "Recipe Fields",
-            "type": "String[]",
-            "optional": false,
-            "field": "instructions",
-            "description": "<p>List of steps describing how to cook the recipe.</p>"
-          },
-          {
-            "group": "Recipe Fields",
             "type": "Object[]",
             "optional": false,
             "field": "ingredients",
@@ -432,15 +403,22 @@
             "group": "Recipe Fields",
             "type": "String",
             "optional": false,
-            "field": "ingredient.measurement",
+            "field": "ingredient.unit",
             "description": "<p>Measurement such as grams, cups, teaspoons, etc.</p>"
+          },
+          {
+            "group": "Recipe Fields",
+            "type": "String[]",
+            "optional": false,
+            "field": "directions",
+            "description": "<p>List of steps describing how to cook the recipe.</p>"
           }
         ]
       },
       "examples": [
         {
           "title": "Post Example:",
-          "content": "{\n   \"name\": \"Tomato Soup\",\n   \"description\": \"A quick and easy recipe for real homemade tomato soup like no other you've had before.\",\n   \"image\": \"https://s3.eu-central-1.amazonaws.com/delish-app-uploads/recipes/573ec098e85f5601f611322b.jpg\",\n   \"time\": 35,\n   \"servings\": 6,\n   \"link\": \"https://www.allrecipes.com/recipe/39544/garden-fresh-tomato-soup/\",\n   \"ingredients\":\n   [\n       {\n           \"name\": \"Tomato\",\n           \"quantity\": 4,\n           \"measurement\": \"cups\"\n       },\n       {\n           \"name\": \"Onion\",\n           \"quantity\": 1,\n           \"measurement\": \"whole\"\n       },\n       {\n           \"name\": \"Clove\",\n           \"quantity\": 4,\n           \"measurement\": \"whole\"\n       },\n       {\n           \"name\": \"Butter\",\n           \"quantity\": 2,\n           \"measurement\": \"tablespoons\"\n       },\n       {\n           \"name\": \"Chicken Broth\",\n           \"quantity\": 2,\n           \"measurement\": \"cups\"\n       },\n       {\n           \"name\": \"Salt\",\n           \"quantity\": 1,\n           \"measurement\": \"tablespoon\"\n       }\n   ],\n   \"instructions\":\n   [\n       \"In a stockpot, over medium heat, combine the tomatoes, onion, cloves and chicken broth. Bring to a boil, and gently boil for about 20 minutes to blend all of the flavors. Remove from heat and run the mixture through a food mill into a large bowl, or pan. Discard any stuff left over in the food mill.\",\n       \"In the now empty stockpot, melt the butter over medium heat. Stir in the flour to make a roux, cooking until the roux is a medium brown. Gradually whisk in a bit of the tomato mixture, so that no lumps form, then stir in the rest. Season with sugar and salt, and adjust to taste.\"\n   ]\n}",
+          "content": "{\n   \"title\": \"Tomato Soup\",\n   \"image\": \"https://s3.eu-central-1.amazonaws.com/delish-app-uploads/recipes/573ec098e85f5601f611322b.jpg\",\n   \"time\": 35,\n   \"servings\": 6,\n   \"link\": \"https://www.allrecipes.com/recipe/39544/garden-fresh-tomato-soup/\",\n   \"ingredients\":\n   [\n       {\n           \"name\": \"Tomato\",\n           \"quantity\": 4,\n           \"unit\": \"cups\"\n       },\n       {\n           \"name\": \"Onion\",\n           \"quantity\": 1,\n           \"unit\": \"whole\"\n       },\n       {\n           \"name\": \"Clove\",\n           \"quantity\": 4,\n           \"unit\": \"whole\"\n       },\n       {\n           \"name\": \"Butter\",\n           \"quantity\": 2,\n           \"unit\": \"tablespoons\"\n       },\n       {\n           \"name\": \"Chicken Broth\",\n           \"quantity\": 2,\n           \"unit\": \"cups\"\n       },\n       {\n           \"name\": \"Salt\",\n           \"quantity\": 1,\n           \"unit\": \"tablespoon\"\n       }\n   ],\n   \"instructions\":\n   [\n       \"In a stockpot, over medium heat, combine the tomatoes, onion, cloves and chicken broth. Bring to a boil, and gently boil for about 20 minutes to blend all of the flavors. Remove from heat and run the mixture through a food mill into a large bowl, or pan. Discard any stuff left over in the food mill.\",\n       \"In the now empty stockpot, melt the butter over medium heat. Stir in the flour to make a roux, cooking until the roux is a medium brown. Gradually whisk in a bit of the tomato mixture, so that no lumps form, then stir in the rest. Season with sugar and salt, and adjust to taste.\"\n   ]\n}",
           "type": "json"
         }
       ]
@@ -459,7 +437,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "HTTP/1.1 201 Created\n{\n  \"_id\" : \"5746d36bfa2cdf7c300bf61c\",\n  \"message\": \"Recipe added\"\n}",
+          "content": "HTTP/1.1 201 Created\n{\n   \"data\":\n   {\n      \"id\" : \"5746d36bfa2cdf7c300bf61c\"\n   }\n   \"message\": \"Recipe added\"\n}",
           "type": "json"
         }
       ]
@@ -551,6 +529,18 @@
     "group": "Recipes",
     "version": "1.0.0",
     "description": "<p>This request returns a list of all recipes.</p>",
+    "success": {
+      "fields": {
+        "Success 2xx": [
+          {
+            "group": "Success 2xx",
+            "optional": false,
+            "field": "200",
+            "description": "<p>OK</p>"
+          }
+        ]
+      }
+    },
     "error": {
       "fields": {
         "Error 5xx": [
@@ -645,7 +635,7 @@
       "examples": [
         {
           "title": "Edit Example:",
-          "content": "{\n   \"name\": \"Cherry Tomato Soup\",\n   \"image\": \"https://s3.eu-central-1.amazonaws.com/delish-app-uploads/cherry-tomato.jpg\"\n}",
+          "content": "{\n   \"title\": \"Cherry Tomato Soup\",\n   \"image\": \"https://s3.eu-central-1.amazonaws.com/delish-app-uploads/cherry-tomato.jpg\"\n}",
           "type": "json"
         }
       ]

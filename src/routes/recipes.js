@@ -31,23 +31,22 @@ module.exports.getAll = async function(req, res) {
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  *
- * @apiDescription This request creates a new recipe using the json body provided. An _id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated _id is returned
+ * @apiDescription This request creates a new recipe using the json body provided. An id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated id is returned
  *
- * @apiParam (Recipe Fields) {String} name Name of the recipe.
+ * @apiParam (Recipe Fields) {String} title Name of the recipe.
  * @apiParam (Recipe Fields) {String} image URL of the recipe.
  * @apiParam (Recipe Fields) {number} time Preparation time represented in number of minutes.
  * @apiParam (Recipe Fields) {number} servings Number of serving produced with the recipe.
  * @apiParam (Recipe Fields) {String} link Optional URL link to the website where the recipe was found.
- * @apiParam (Recipe Fields) {String[]} instructions List of steps describing how to cook the recipe.
  * @apiParam (Recipe Fields) {Object[]} ingredients List of ingredients needed for the recipe.
  * @apiParam (Recipe Fields) {String} ingredient.name Name of the ingredient.
  * @apiParam (Recipe Fields) {Quantity} ingredient.quantity Number representing the quantity of the ingredient.
- * @apiParam (Recipe Fields) {String} ingredient.measurement Measurement such as grams, cups, teaspoons, etc.
+ * @apiParam (Recipe Fields) {String} ingredient.unit Measurement such as grams, cups, teaspoons, etc.
+ * @apiParam (Recipe Fields) {String[]} directions List of steps describing how to cook the recipe.
  *
  * @apiParamExample {json} Post Example:
  *       {
- *          "name": "Tomato Soup",
- *          "description": "A quick and easy recipe for real homemade tomato soup like no other you've had before.",
+ *          "title": "Tomato Soup",
  *          "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/recipes/573ec098e85f5601f611322b.jpg",
  *          "time": 35,
  *          "servings": 6,
@@ -57,32 +56,32 @@ module.exports.getAll = async function(req, res) {
  *              {
  *                  "name": "Tomato",
  *                  "quantity": 4,
- *                  "measurement": "cups"
+ *                  "unit": "cups"
  *              },
  *              {
  *                  "name": "Onion",
  *                  "quantity": 1,
- *                  "measurement": "whole"
+ *                  "unit": "whole"
  *              },
  *              {
  *                  "name": "Clove",
  *                  "quantity": 4,
- *                  "measurement": "whole"
+ *                  "unit": "whole"
  *              },
  *              {
  *                  "name": "Butter",
  *                  "quantity": 2,
- *                  "measurement": "tablespoons"
+ *                  "unit": "tablespoons"
  *              },
  *              {
  *                  "name": "Chicken Broth",
  *                  "quantity": 2,
- *                  "measurement": "cups"
+ *                  "unit": "cups"
  *              },
  *              {
  *                  "name": "Salt",
  *                  "quantity": 1,
- *                  "measurement": "tablespoon"
+ *                  "unit": "tablespoon"
  *              }
  *          ],
  *          "instructions":
@@ -94,11 +93,14 @@ module.exports.getAll = async function(req, res) {
  *
  * @apiSuccess (Success 2xx) 201 Recipe Created
  * @apiSuccessExample {json} Success-Response:
- *     HTTP/1.1 201 Created
- *     {
- *       "_id" : "5746d36bfa2cdf7c300bf61c",
- *       "message": "Recipe added"
- *     }
+ * HTTP/1.1 201 Created
+ * {
+ *    "data":
+ *    {
+ *       "id" : "5746d36bfa2cdf7c300bf61c"
+ *    }
+ *    "message": "Recipe added"
+ * }
  *
  * @apiError (Error 4xx) 400 Bad Request <br>Wrongly formated <code>json</code> was sent.
  * @apiError (Error 5xx) 500 Internal Server Error
@@ -160,7 +162,7 @@ module.exports.getById = async function(req, res) {
  * @apiParam {ObjectId} id The unique identifier of the recipe.
  * @apiParamExample {json} Edit Example:
  * {
- *    "name": "Cherry Tomato Soup",
+ *    "title": "Cherry Tomato Soup",
  *    "image": "https://s3.eu-central-1.amazonaws.com/delish-app-uploads/cherry-tomato.jpg"
  * }
  *
