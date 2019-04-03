@@ -16,6 +16,5 @@ db.on('error', error => {
 
 module.exports = {
   db: db,
-  Ingredient: require('./ingredient'),
   Recipe: require('./recipe')
 };

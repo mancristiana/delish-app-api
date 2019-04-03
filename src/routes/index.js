@@ -1,19 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const ingredients = require('./ingredients');
 const recipes = require('./recipes');
-
-router
-  .route('/api/ingredients')
-  .get(ingredients.getAll)
-  .post(ingredients.add);
-
-router
-  .route('/api/ingredients/:id')
-  .get(ingredients.getById)
-  .put(ingredients.update)
-  .delete(ingredients.delete);
 
 router
   .route('/api/recipes')
