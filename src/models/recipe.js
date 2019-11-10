@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 let recipeShema = mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
   title: String,
   image: String,
   time: Date,

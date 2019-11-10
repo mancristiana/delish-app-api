@@ -1,4 +1,4 @@
-const Recipe = require('./../models').Recipe;
+const Recipe = require('../models').Recipe;
 
 /**
  * @api {get} /recipes Get All Recipes
