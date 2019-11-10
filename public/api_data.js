@@ -494,7 +494,7 @@ define({ "api": [
     "name": "delete_user",
     "group": "Users",
     "version": "1.0.0",
-    "description": "<p>An authorized user can delete their own user account. This request retrieves the user id from the authorization header and deletes the corresponding user.</p> <p>This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
+    "description": "<p>An authorized user can delete their own user account. This request retrieves the user id from the authorization header and deletes the corresponding user. This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
     "header": {
       "fields": {
         "Authorization Header": [
@@ -559,7 +559,7 @@ define({ "api": [
     "name": "get_user",
     "group": "Users",
     "version": "1.0.0",
-    "description": "<p>An authorized user can view their own user information. This request retrieves the user id from the authorization header and returns the corresponding user data.</p> <p>This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
+    "description": "<p>An authorized user can view their own user information. This request retrieves the user id from the authorization header and returns the corresponding user data. This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
     "header": {
       "fields": {
         "Authorization Header": [
@@ -722,7 +722,7 @@ define({ "api": [
     "name": "update_user",
     "group": "Users",
     "version": "1.0.0",
-    "description": "<p>An authorized user can modify their own user profile. This request retrieves the user id from the authorization header and modifies the corresponding user data.</p> <p>This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
+    "description": "<p>An authorized user can modify their own user profile. This request retrieves the user id from the authorization header and modifies the corresponding user data. This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
     "header": {
       "fields": {
         "Authorization Header": [

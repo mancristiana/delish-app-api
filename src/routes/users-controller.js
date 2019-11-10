@@ -69,7 +69,6 @@ module.exports.createUser = async function(req, res) {
  *
  * @apiDescription An authorized user can view their own user information.
  * This request retrieves the user id from the authorization header and returns the corresponding user data.
- *
  * This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.
  *
  * @apiHeader (Authorization Header) {String="Bearer :token"} Authorization Replace <code>:token</code> with supplied Auth Token
@@ -109,7 +108,6 @@ module.exports.getUser = async function(req, res) {
  *
  * @apiDescription An authorized user can modify their own user profile.
  * This request retrieves the user id from the authorization header and modifies the corresponding user data.
- *
  * This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.
  *
  * @apiHeader (Authorization Header) {String="Bearer :token"} Authorization Replace <code>:token</code> with supplied Auth Token
@@ -156,7 +154,6 @@ module.exports.updateUser = async function(req, res) {
  *
  * @apiDescription An authorized user can delete their own user account.
  * This request retrieves the user id from the authorization header and deletes the corresponding user.
- *
  * This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.
  *
  * @apiHeader (Authorization Header) {String="Bearer :token"} Authorization Replace <code>:token</code> with supplied Auth Token

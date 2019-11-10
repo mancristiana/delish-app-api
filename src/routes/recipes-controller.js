@@ -36,7 +36,10 @@ module.exports.getAll = async function(req, res) {
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  *
- * @apiDescription This request creates a new recipe using the json body provided. An id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated id is returned
+ * @apiDescription This request creates a new recipe using the json body provided. 
+ * An id field is generated automatically. 
+ * For consistency the json should include the parameters specified below. 
+ * A return Json prividing the generated id is returned.
  * This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.
  *
  * @apiHeader (Authorization Header) {String="Bearer :token"} Authorization Replace <code>:token</code> with supplied Auth Token
@@ -137,7 +140,7 @@ module.exports.add = async function(req, res) {
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  *
- * @apiDescription This request returns the recipe specified by the unique <code>:id</code> in the request URL
+ * @apiDescription This request returns the recipe specified by the unique <code>:id</code> in the request URL.
  * This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.
  *
  * @apiHeader (Authorization Header) {String="Bearer :token"} Authorization Replace <code>:token</code> with supplied Auth Token
@@ -170,7 +173,9 @@ module.exports.getById = async function(req, res) {
  * @apiGroup Recipes
  * @apiVersion 1.0.0
  * 
- * @apiDescription This request updates an existing recipe using the json body provided and the <code>:id</code> parameter specified in the request URL. For consistency the json may include keys like in the example below.
+ * @apiDescription This request updates an existing recipe using the json body provided and the 
+ * <code>:id</code> parameter specified in the request URL. 
+ * For consistency the json may include keys like in the example below.
  * This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.
  *
  * @apiHeader (Authorization Header) {String="Bearer :token"} Authorization Replace <code>:token</code> with supplied Auth Token
