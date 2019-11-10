@@ -1,6 +1,71 @@
 [
   {
     "type": "post",
+    "url": "auth",
+    "title": "Login",
+    "name": "login",
+    "group": "Authentication",
+    "version": "1.0.0",
+    "description": "<p>This endpoint validates user credentials and provides a signed <code>Json Web Token.</code></p> <p>This token can be sent in <code>Authorization</code> header of future requests to gain access to protected resources such as user profile and appointments.</p> <p>The API uses the Bearer authentication scheme meaning headers of protected resources must include <code>Authorization: Bearer token</code></p>",
+    "parameter": {
+      "examples": [
+        {
+          "title": "Request body",
+          "content": "{\n    \"email\": \"test@test.com\",\n    \"password\": \"qwer1234\",\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 2xx": [
+          {
+            "group": "Success 2xx",
+            "optional": false,
+            "field": "200",
+            "description": "<p>OK</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n    \"success\": true,\n    \"data\": {\n        \"jwt\": \"eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjViMTE3MDRhYzVlNDM2MDE2ODBkMzgxZCIsImlhdCI6MTUyNzk1ODUwMiwiZXhwIjoxNTI3OTYyMTAyfQ.V9ch6KWmJ8f65qEeD7qPeSUm2z1mjPRm-HsO0WQq-eNCR1fBz_ej4UgVCYfJJ_yXDeq0Wmytwy1TYZcBNdn-LA\"\n    }\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "400",
+            "description": "<p>Bad request. Email and password must be specified</p>"
+          },
+          {
+            "group": "Error 4xx",
+            "optional": false,
+            "field": "401",
+            "description": "<p>Unauthorized. Incorrect credentials</p>"
+          }
+        ],
+        "Error 5xx": [
+          {
+            "group": "Error 5xx",
+            "optional": false,
+            "field": "500",
+            "description": "<p>Internal Server Error</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/routes/auth-controller.js",
+    "groupTitle": "Authentication"
+  },
+  {
+    "type": "post",
     "url": "/recipes",
     "title": "Add Recipe",
     "name": "add_recipe",
@@ -129,7 +194,7 @@
         ]
       }
     },
-    "filename": "src/routes/recipes.js",
+    "filename": "src/routes/recipes-controller.js",
     "groupTitle": "Recipes"
   },
   {
@@ -185,7 +250,7 @@
         ]
       }
     },
-    "filename": "src/routes/recipes.js",
+    "filename": "src/routes/recipes-controller.js",
     "groupTitle": "Recipes"
   },
   {
@@ -220,7 +285,7 @@
         ]
       }
     },
-    "filename": "src/routes/recipes.js",
+    "filename": "src/routes/recipes-controller.js",
     "groupTitle": "Recipes"
   },
   {
@@ -276,7 +341,7 @@
         ]
       }
     },
-    "filename": "src/routes/recipes.js",
+    "filename": "src/routes/recipes-controller.js",
     "groupTitle": "Recipes"
   },
   {
@@ -339,7 +404,7 @@
         ]
       }
     },
-    "filename": "src/routes/recipes.js",
+    "filename": "src/routes/recipes-controller.js",
     "groupTitle": "Recipes"
   }
 ]
