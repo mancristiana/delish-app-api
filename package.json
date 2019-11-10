@@ -9,7 +9,7 @@
     "start": "nodemon --exec \"yarn heroku:local\" --signal SIGTERM"
   },
   "engines": {
-    "node": "11.0.0"
+    "node": ">= 10"
   },
   "repository": {
     "type": "git",
