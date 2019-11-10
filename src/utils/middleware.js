@@ -21,8 +21,8 @@ const error = function(err, req, res, next) {
 };
 
 module.exports = {
-  error: error,
-  notFound: notFound,
-  badRequest: badRequest,
-  logErrors: logErrors
+  error,
+  notFound,
+  badRequest,
+  logErrors
 };
