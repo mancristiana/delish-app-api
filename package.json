@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "apidoc": "^0.17.7",
-    "heroku": "^7.22.7",
-    "nodemon": "^1.18.10"
+    "heroku": "^7.35.0",
+    "nodemon": "^1.19.4"
   }
 }
