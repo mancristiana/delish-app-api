@@ -1,7 +1,7 @@
 define({ "api": [
   {
     "type": "post",
-    "url": "auth",
+    "url": "/auth",
     "title": "Login",
     "name": "login",
     "group": "Authentication",
@@ -489,7 +489,7 @@ define({ "api": [
   },
   {
     "type": "put",
-    "url": "api/users",
+    "url": "/users",
     "title": "Delete User",
     "name": "delete_user",
     "group": "Users",
@@ -554,7 +554,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "api/users",
+    "url": "/users",
     "title": "Get User",
     "name": "get_user",
     "group": "Users",
@@ -626,7 +626,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "api/users",
+    "url": "/users",
     "title": "Register User",
     "name": "register_user",
     "group": "Users",
@@ -717,7 +717,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "api/users",
+    "url": "/users",
     "title": "Update User Profile",
     "name": "update_user",
     "group": "Users",
@@ -748,7 +748,7 @@ define({ "api": [
         },
         {
           "title": "Update profile",
-          "content": "{\n    \"name\": \"Test 4\",\n    \"nationalId\": \"12037671637\",\n    \"phone\": \"35001237\",\n    \"address\": \"Terminalgade 2, 2770 Kastrup\"\n}",
+          "content": "{\n    \"name\": \"Test 4\"\n}",
           "type": "json"
         }
       ]

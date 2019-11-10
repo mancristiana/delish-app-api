@@ -3,6 +3,7 @@ const router = express.Router();
 
 const RecipesController = require('./recipes-controller');
 const AuthController = require('./auth-controller');
+const UsersController = require('./users-controller');
 const auth = AuthController.authorize;
 
 router.route('/auth').post(AuthController.login);

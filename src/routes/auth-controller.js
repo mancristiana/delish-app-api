@@ -3,7 +3,7 @@ const User = require('../models').User;
 const { hasFields } = require('./../utils/requestValidator');
 
 /**
- * @api {post} auth Login
+ * @api {post} /auth Login
  * @apiName login
  * @apiGroup Authentication
  * @apiVersion 1.0.0
