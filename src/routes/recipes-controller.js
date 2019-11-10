@@ -17,7 +17,9 @@ const Recipe = require('../models').Recipe;
 // Handler function (middleware system) for get request
 module.exports.getAll = async function(req, res) {
   let recipes, error;
-  [recipes, error] = await to(Recipe.find());
+  [recipes, error] = await to(Recipe.find({
+    userId: req.userId
+  }));
   if (error) {
     return responseError(res, error);
   }
@@ -110,6 +112,8 @@ module.exports.getAll = async function(req, res) {
 module.exports.add = async function(req, res) {
   let result, error;
   const newRecipe = new Recipe(req.body);
+  newRecipe.userId = req.userId;
+
   [result, error] = await to(newRecipe.save());
   if (error) {
     if (error.type === 'ValidationError') {
@@ -139,7 +143,7 @@ module.exports.add = async function(req, res) {
 
 module.exports.getById = async function(req, res) {
   let recipe, error;
-  [recipe, error] = await to(Recipe.findOne({ _id: req.params.id }));
+  [recipe, error] = await to(Recipe.findOne({ _id: req.params.id, userId: req.userId }));
   if (error) {
     return responseError(res, error);
   }
@@ -174,7 +178,7 @@ module.exports.getById = async function(req, res) {
 module.exports.update = async function(req, res) {
   let result, error;
   [result, error] = await to(
-    Recipe.update({ _id: req.params.id }, { $set: req.body })
+    Recipe.update({ _id: req.params.id, userId: req.userId }, { $set: req.body })
   );
   if (error) {
     return responseError(res, error);
@@ -203,7 +207,7 @@ module.exports.update = async function(req, res) {
  */
 module.exports.delete = async function(req, res) {
   let error, result;
-  [result, error] = await to(Recipe.deleteOne({ _id: req.params.id }));
+  [result, error] = await to(Recipe.deleteOne({ _id: req.params.id, userId: req.userId }));
   if (error) {
     return responseError(res, error);
   }
