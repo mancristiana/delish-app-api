@@ -71,7 +71,7 @@ define({ "api": [
     "name": "add_recipe",
     "group": "Recipes",
     "version": "1.0.0",
-    "description": "<p>This request creates a new recipe using the json body provided. An id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated id is returned This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
+    "description": "<p>This request creates a new recipe using the json body provided. An id field is generated automatically. For consistency the json should include the parameters specified below. A return Json prividing the generated id is returned. This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
     "header": {
       "fields": {
         "Authorization Header": [
@@ -343,7 +343,7 @@ define({ "api": [
     "name": "get_recipe",
     "group": "Recipes",
     "version": "1.0.0",
-    "description": "<p>This request returns the recipe specified by the unique <code>:id</code> in the request URL This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
+    "description": "<p>This request returns the recipe specified by the unique <code>:id</code> in the request URL. This resource is protected. Therefore, you must include <code>Authorization: Bearer token</code> header.</p>",
     "header": {
       "fields": {
         "Authorization Header": [
@@ -488,7 +488,7 @@ define({ "api": [
     "groupTitle": "Recipes"
   },
   {
-    "type": "put",
+    "type": "delete",
     "url": "/users",
     "title": "Delete User",
     "name": "delete_user",

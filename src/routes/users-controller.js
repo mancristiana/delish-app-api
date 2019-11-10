@@ -147,7 +147,7 @@ module.exports.updateUser = async function(req, res) {
 };
 
 /**
- * @api {put} /users Delete User
+ * @api {delete} /users Delete User
  * @apiName delete-user
  * @apiGroup Users
  * @apiVersion 1.0.0
