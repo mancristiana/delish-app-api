@@ -21,6 +21,7 @@
     "url": "https://github.com/mancristiana/delish-app-api/issues"
   },
   "dependencies": {
+    "argon2": "^0.25.1",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
@@ -28,6 +29,8 @@
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.3.3",
     "mongoose": "^5.7.9",
+    "mongoose-unique-validator": "^2.0.3",
+    "mongoose-validator": "^2.1.0",
     "morgan": "^1.9.1",
     "parse-error": "^0.2.0"
   },

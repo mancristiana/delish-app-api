@@ -42,7 +42,7 @@ userSchema.methods.hashPassword = async function(password) {
   let hash, error;
   [hash, error] = await to(argon2.hash(password, argonOptions));
   if (error) {
-    throwError(`User.hashPassword Error: ${error}`, true);
+    throwError(`User.hashPassword Error: ${JSON.stringify(error)}`, true);
   } else {
     return hash;
   }

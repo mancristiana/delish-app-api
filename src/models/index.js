@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 // See docs: http://mongoosejs.com/docs/promises.html#plugging-in-your-own-promises-library
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI).catch(err => {
+mongoose.connect(CONFIG.DB_URI, { useNewUrlParser: true }).catch(err => {
   throwError(`Can't connect to MongoDB`);
 });
 
@@ -16,5 +16,6 @@ db.on('error', error => {
 
 module.exports = {
   db: db,
-  Recipe: require('./recipe')
+  Recipe: require('./recipe'),
+  User: require('./user')
 };

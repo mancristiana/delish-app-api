@@ -13,6 +13,15 @@ function conf(key, defaultValue) {
 conf('AWS_ACCESS_KEY_ID');
 conf('AWS_SECRET_ACCESS_KEY');
 conf('S3_BUCKET');
+
 conf('PORT', 5000);
-conf('MONGODB_URI');
-conf('MONGODB_DB');
+conf('DB_URI');
+conf('DB');
+
+conf('ARGON_TIMECOST', 40)
+conf('ARGON_MEMORY', 128000)
+conf('ARGON_PARALLELISM', 4)
+
+conf('JWT_ENCRYPTION', 'HS512')
+conf('JWT_EXPIRATION', 10000)
+conf('JWT_SECRET')
